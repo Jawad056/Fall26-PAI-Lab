@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Face Profiling System</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f9;
+            text-align: center;
+            padding: 30px;
+        }
+
+        .container {
+            width: 70%;
+            margin: auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px gray;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        input[type="file"] {
+            margin: 20px 0;
+        }
+
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #0056b3;
+        }
+
+        img {
+            margin-top: 20px;
+            max-width: 500px;
+            border-radius: 8px;
+        }
+
+        .result-box {
+            margin-top: 20px;
+            text-align: left;
+            display: inline-block;
+            background: #eef3f7;
+            padding: 20px;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Face Profiling System</h1>
+        <p>Upload an image to detect face and eyes.</p>
+
+        <form method="POST" enctype="multipart/form-data">
+            <input type="file" name="image" required>
+            <br>
+            <button type="submit">Upload and Analyze</button>
+        </form>
+
+        {% if result %}
+        <div class="result-box">
+            <h3>Analysis Result</h3>
+            <p><strong>Faces Detected:</strong> {{ result.face_count }}</p>
+            <p><strong>Total Eyes Detected:</strong> {{ result.eye_count }}</p>
+            <p><strong>Profile:</strong> {{ result.profile }}</p>
+
+            <h4>Measurements:</h4>
+            <ul>
+                {% for item in result.measurements %}
+                <li>
+                    Face {{ item.face_number }}:
+                    Width = {{ item.width }} px,
+                    Height = {{ item.height }} px,
+                    Eyes Detected = {{ item.eyes_detected }}
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+
+        {% if output_image %}
+        <h3>Processed Image</h3>
+        <img src="{{ url_for('static', filename='output/' + output_image) }}" alt="Processed Image">
+        {% endif %}
+    </div>
+</body>
+</html>
