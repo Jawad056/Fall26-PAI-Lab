@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Email Scraper App</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<div class="container">
+    <h1>Email Extractor</h1>
+
+    <form method="POST">
+        <input type="text" name="url" placeholder="Enter Website URL (https://example.com)" required>
+        <button type="submit">Extract Emails</button>
+    </form>
+
+    {% if emails %}
+        <div class="results">
+            <h2>Found Emails:</h2>
+            <ul>
+                {% for email in emails %}
+                    <li>{{ email }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+</div>
+
+</body>
+</html>
