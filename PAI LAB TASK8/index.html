@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random Joke App</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to right, #dbeafe, #f0f9ff);
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            width: 60%;
+            max-width: 700px;
+            margin: 80px auto;
+            background-color: white;
+            padding: 35px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+            text-align: center;
+        }
+
+        h1 {
+            color: #1e3a8a;
+            margin-bottom: 20px;
+        }
+
+        p {
+            font-size: 20px;
+            color: #333;
+        }
+
+        #setup {
+            font-weight: bold;
+            margin-top: 25px;
+            font-size: 24px;
+        }
+
+        #punchline {
+            margin-top: 15px;
+            font-size: 22px;
+            color: #555;
+        }
+
+        button {
+            margin-top: 20px;
+            background-color: #2563eb;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            font-size: 18px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #1d4ed8;
+        }
+
+        .footer {
+            margin-top: 25px;
+            color: #777;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Random Joke App</h1>
+        <p>Click the button below to get a random joke.</p>
+
+        <button onclick="getJoke()">Get Joke</button>
+
+        <p id="setup">Question will appear here...</p>
+        <p id="punchline">Answer will appear here...</p>
+
+        <div class="footer">
+            Flask + API + Dynamic Frontend
+        </div>
+    </div>
+
+    <script>
+        async function getJoke() {
+            try {
+                const response = await fetch('/joke');
+                const data = await response.json();
+
+                if (data.error) {
+                    document.getElementById('setup').innerText = "Error fetching joke.";
+                    document.getElementById('punchline').innerText = data.details || "";
+                } else {
+                    document.getElementById('setup').innerText = "Question: " + data.setup;
+                    document.getElementById('punchline').innerText = "Answer: " + data.punchline;
+                }
+            } catch (error) {
+                document.getElementById('setup').innerText = "Something went wrong.";
+                document.getElementById('punchline').innerText = "";
+            }
+        }
+    </script>
+</body>
+</html>
