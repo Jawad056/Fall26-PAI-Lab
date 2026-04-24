@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AI Resume Analyzer</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+<div class="container">
+    <h1>AI Resume Analyzer</h1>
+
+    <form method="POST" enctype="multipart/form-data">
+
+        <label>Upload Resume (PDF or Word)</label>
+        <input type="file" name="file">
+
+        <p class="or">OR</p>
+
+        <textarea name="resume" placeholder="Paste resume text here..."></textarea>
+
+        <button type="submit">Analyze Resume</button>
+    </form>
+
+    {% if result %}
+    <div class="result-box">
+
+        <h2>Resume Score</h2>
+        <div class="progress">
+            <div class="progress-bar" style="width: {{ result.score }}%;">
+                {{ result.score }}%
+            </div>
+        </div>
+
+        <div class="cards">
+
+            <div class="card">
+                <h3>Skills</h3>
+                <p>{{ result.skills }}</p>
+            </div>
+
+            <div class="card">
+                <h3>Experience</h3>
+                <p>{{ result.experience }}</p>
+            </div>
+
+            <div class="card">
+                <h3>Job Match</h3>
+                <p><b>Matched:</b> {{ result.matched }}</p>
+                <p><b>Missing:</b> {{ result.missing }}</p>
+                <p><b>Match %:</b> {{ result.match_percent }}%</p>
+            </div>
+
+        </div>
+
+        <h3>Feedback</h3>
+        <ul>
+            {% for f in result.feedback %}
+                <li>{{ f }}</li>
+            {% endfor %}
+        </ul>
+
+    </div>
+    {% endif %}
+
+</div>
+
+</body>
+</html>
