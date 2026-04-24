@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>University Admission Chatbot</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+<div class="container">
+    <h1>🎓 Admission Chatbot</h1>
+
+    <input type="text" id="userInput" placeholder="Ask about admissions...">
+    <button onclick="send()">Send</button>
+
+    <div id="chatBox"></div>
+</div>
+
+<script>
+async function send() {
+    let msg = document.getElementById("userInput").value;
+
+    let res = await fetch("/chat", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({message: msg})
+    });
+
+    let data = await res.json();
+
+    let chatBox = document.getElementById("chatBox");
+
+    let html = "";
+    data.forEach(d => {
+        html += `
+        <div class="card">
+            <p><b>Q:</b> ${d.question}</p>
+            <p><b>A:</b> ${d.answer}</p>
+        </div>`;
+    });
+
+    chatBox.innerHTML = html;
+}
+</script>
+
+</body>
+</html>
